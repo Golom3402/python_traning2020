@@ -24,6 +24,6 @@ def test_add_new_contact(app):
                       anny_month='April', anny_year='1994', group=None, address2='address 2 2 2', phone2='123456789-0',
                       notes='notes notes notes notes notes notes notes notes notes notes notes notes notes notes')
     app.open_home_page()
-    app.add_new_contact(contact=contact)
+    app.contact.add_new(contact=contact)
     app.return_to_home_page()
     app.session.logout()
