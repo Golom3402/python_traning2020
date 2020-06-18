@@ -8,6 +8,32 @@ class ContactHelper:
     def add_new(self, contact):
         wd = self.app.wd
         wd.find_element_by_link_text("add new").click()
+        self.fill_contact_form(contact)
+        wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
+
+    def edit(self, old_contact, new_contact):
+        wd = self.app.wd
+        title = old_contact.first_name+' '+old_contact.last_name
+        locator=f'// input[ @ type = "checkbox" and contains( @ title, "{title}")]/../following-sibling::td/a/img[@title="Edit"]'
+        wd.find_element_by_xpath(locator).click()
+        self.fill_contact_form(new_contact)
+        wd.find_element_by_name('update').click()
+        self.app.return_to_home_page()
+
+    def delete(self, contact):
+        wd = self.app.wd
+        title = contact.first_name + ' ' + contact.last_name
+        locator = f'// input[ @ type = "checkbox" and contains( @ title, "{title}")]'
+        wd.find_element_by_xpath(locator).click()
+        wd.find_element_by_xpath("//input[@value='Delete']").click()
+        alert = wd.switch_to_alert()
+        alert.accept()
+
+
+
+
+
+    def fill_contact_form(self, contact):
         self.fill_text_field_by_name('firstname', contact.first_name)
         self.fill_text_field_by_name('middlename', contact.middle_name)
         self.fill_text_field_by_name('lastname', contact.last_name)
@@ -35,7 +61,6 @@ class ContactHelper:
         self.fill_text_field_by_name('address2', contact.address2)
         self.fill_text_field_by_name('phone2', contact.phone2)
         self.fill_text_field_by_name('notes', contact.notes)
-        wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
 
     def fill_text_field_by_name(self, text_field, text):
         wd = self.app.wd
