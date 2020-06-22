@@ -20,6 +20,15 @@ class ContactHelper:
         wd.find_element_by_name('update').click()
         self.app.return_to_home_page()
 
+    def delete_first_contact(self):
+        wd = self.app.wd
+
+        locator = '//td/input[@type="checkbox"]'
+        wd.find_element_by_xpath(locator).click()
+        wd.find_element_by_xpath("//input[@value='Delete']").click()
+        alert = wd.switch_to_alert()
+        alert.accept()
+
     def delete(self, contact):
         wd = self.app.wd
         title = contact.first_name + ' ' + contact.last_name
