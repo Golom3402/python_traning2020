@@ -1,9 +1,7 @@
 from model.group_model import Group
 
 
-
-
-def test_delete_first_group(app):
+def test_edit_group(app):
     app.session.login(name='admin', password='secret')
-    app.group.delete_first_group()
+    app.group.edit('first_group', Group(name="second_group", header="GROUP222", footer="footer group4342"))
     app.session.logout()
