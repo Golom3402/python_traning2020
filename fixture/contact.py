@@ -20,6 +20,14 @@ class ContactHelper:
         wd.find_element_by_name('update').click()
         self.app.return_to_home_page()
 
+    def edit_first_contact(self, new_contact):
+        wd = self.app.wd
+        locator = '//td/a/img[@title="Edit"]'
+        wd.find_element_by_xpath(locator).click()
+        self.fill_contact_form(new_contact)
+        wd.find_element_by_name('update').click()
+        self.app.return_to_home_page()
+
     def delete_first_contact(self):
         wd = self.app.wd
 
@@ -73,12 +81,18 @@ class ContactHelper:
 
     def fill_text_field_by_name(self, text_field, text):
         wd = self.app.wd
-        wd.find_element_by_name(text_field).click()
-        wd.find_element_by_name(text_field).clear()
-        wd.find_element_by_name(text_field).send_keys(text)
+        if text:
+            wd.find_element_by_name(text_field).click()
+            wd.find_element_by_name(text_field).clear()
+            wd.find_element_by_name(text_field).send_keys(text)
+        else:
+            pass
 
     def choose_text_in_drop_down_list_by_name(self, field_name, text):
         wd = self.app.wd
-        wd.find_element_by_name(field_name).click()
-        Select(wd.find_element_by_name(field_name)).select_by_visible_text(text)
-        wd.find_element_by_name(field_name).click()
+        if text:
+            wd.find_element_by_name(field_name).click()
+            Select(wd.find_element_by_name(field_name)).select_by_visible_text(text)
+            wd.find_element_by_name(field_name).click()
+        else:
+            pass
