@@ -2,15 +2,12 @@
 from model.contact_model import Contact
 
 def test_contact_edit_first_contact(app):
-    app.session.login(name='admin', password='secret')
     new_contact = Contact(
         first_name='Нестор', middle_name='Петрович', last_name="Ложкин", nickname="Test1113")
     app.contact.edit_first_contact(new_contact=new_contact)
-    app.session.logout()
 
 
 def test_contact_edit(app):
-    app.session.login(name='admin', password='secret')
     old_contact=Contact(first_name='Test_user1', middle_name='Петрович', last_name="Ватутин", nickname="Test1")
     new_contact=Contact(
         first_name='Нестор', middle_name='Петрович', last_name="Ложкин", nickname="Test1",
@@ -24,5 +21,5 @@ def test_contact_edit(app):
         notes='notes notes notes notes notes notes notes notes notes notes notes notes notes notes'
     )
     app.contact.edit(old_contact=old_contact, new_contact=new_contact)
-    app.session.logout()
+
 

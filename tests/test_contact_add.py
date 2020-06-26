@@ -8,7 +8,6 @@ from model.contact_model import Contact
 
 
 def test_add_new_contact(app):
-    app.session.login(name='admin', password='secret')
     contact = Contact(first_name='Test_user1', middle_name='Петрович', last_name="Ватутин", nickname="Test1",
                       photo="C:\\fakepath\\Koala.jpg", title='TutleTest data1', company='E-corp',
                       address='York sheer 13',
@@ -21,4 +20,3 @@ def test_add_new_contact(app):
     app.open_home_page()
     app.contact.add_new(contact=contact)
     app.return_to_home_page()
-    app.session.logout()
