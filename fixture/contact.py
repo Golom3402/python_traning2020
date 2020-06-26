@@ -22,6 +22,7 @@ class ContactHelper:
 
     def edit_first_contact(self, new_contact):
         wd = self.app.wd
+        self.app.open_home_page()
         locator = '//td/a/img[@title="Edit"]'
         wd.find_element_by_xpath(locator).click()
         self.fill_contact_form(new_contact)
@@ -30,7 +31,7 @@ class ContactHelper:
 
     def delete_first_contact(self):
         wd = self.app.wd
-
+        self.app.open_home_page()
         locator = '//td/input[@type="checkbox"]'
         wd.find_element_by_xpath(locator).click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
@@ -46,6 +47,10 @@ class ContactHelper:
         alert = wd.switch_to_alert()
         alert.accept()
 
+    def count(self):
+        wd = self.app.wd
+        self.app.open_home_page()
+        return len(wd.find_elements_by_xpath("//table//tr//input"))
 
 
 
