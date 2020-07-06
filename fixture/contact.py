@@ -1,4 +1,9 @@
+import time
+
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
+
+from model.contact_model import Contact
 
 
 class ContactHelper:
@@ -101,3 +106,16 @@ class ContactHelper:
             wd.find_element_by_name(field_name).click()
         else:
             pass
+
+    def get_contact_list(self):
+        wd = self.app.wd
+        self.app.open_home_page()
+        self.app.wait_element((By.XPATH, "//tbody/tr/th[3]/a"))
+        contact_list=[]
+        self.app.wait_element((By.NAME, "entry"))
+        for element in wd.find_elements_by_name("entry"):
+            cont_id = element.find_element_by_xpath("./td/input").get_attribute('value')
+            last_name = element.find_element_by_xpath("./td[2]").text
+            first_name = element.find_element_by_xpath("./td[3]").text
+            contact_list.append(Contact(first_name=first_name, last_name=last_name, cont_id=cont_id))
+        return contact_list

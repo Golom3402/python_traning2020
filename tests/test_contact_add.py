@@ -8,6 +8,7 @@ from model.contact_model import Contact
 
 
 def test_add_new_contact(app):
+    old_list=app.contact.get_contact_list()
     contact = Contact(first_name='Test_user1', middle_name='Петрович', last_name="Ватутин", nickname="Test1",
                       photo="C:\\fakepath\\Koala.jpg", title='TutleTest data1', company='E-corp',
                       address='York sheer 13',
@@ -20,3 +21,7 @@ def test_add_new_contact(app):
     app.open_home_page()
     app.contact.add_new(contact=contact)
     app.return_to_home_page()
+    new_list=app.contact.get_contact_list()
+    assert len(old_list) + 1 == len(new_list)
+    old_list.append(contact)
+    assert sorted(old_list, key=Contact.id_or_max) == sorted(new_list, key=Contact.id_or_max)

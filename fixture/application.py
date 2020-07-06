@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 from fixture.contact import ContactHelper
 from fixture.group import GroupHelper
@@ -24,6 +26,7 @@ class Application:
 
     def open_home_page(self):
         wd = self.wd
+
         if not (wd.current_url.endswith("addressbook/") and len(wd.find_elements_by_name('MainForm')) > 0):
             wd.get("http://localhost/addressbook/")
 
@@ -33,3 +36,13 @@ class Application:
 
     def destroy(self):
         self.wd.quit()
+
+    def wait_element(self, locator):
+        """
+        метод ожидает появления на странице элемента
+        :param locator: - кортеж. формат (By.XPATH, 'xpath')
+        :return:
+        """
+        wd = self.wd
+        wait = WebDriverWait(wd, 10)
+        element = wait.until(EC.visibility_of_element_located(locator))
