@@ -28,20 +28,28 @@ class ContactHelper:
         self.contact_cache = None
 
     def edit_first_contact(self, new_contact):
+        self.edit_contact_by_index(0, new_contact)
+
+    def edit_contact_by_index(self, index, new_contact):
         wd = self.app.wd
         self.app.open_home_page()
         locator = '//td/a/img[@title="Edit"]'
-        wd.find_element_by_xpath(locator).click()
+        edit_buttons = wd.find_elements_by_xpath(locator)
+        edit_buttons[index].click()
         self.fill_contact_form(new_contact)
         wd.find_element_by_name('update').click()
         self.app.return_to_home_page()
         self.contact_cache = None
 
     def delete_first_contact(self):
+        self.delete_contact_by_index(0)
+
+    def delete_contact_by_index(self, index):
         wd = self.app.wd
         self.app.open_home_page()
         locator = '//td/input[@type="checkbox"]'
-        wd.find_element_by_xpath(locator).click()
+        all_check_boxes = wd.find_elements_by_xpath(locator)
+        all_check_boxes[index].click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         alert = wd.switch_to_alert()
         alert.accept()

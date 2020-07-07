@@ -28,9 +28,12 @@ class GroupHelper():
         self.fill_text_field_by_name(text_field="group_footer", text=group.footer)
 
     def delete_first_group(self):
+        self.delete_group_by_index(0)
+
+    def delete_group_by_index(self, index):
         wd = self.app.wd
         self.open_groups_page()
-        wd.find_element_by_name('selected[]').click()
+        self.select_group_by_index(index)
         wd.find_element_by_name("delete").click()
         self.return_to_groups_page()
         self.group_cache = None
@@ -62,17 +65,22 @@ class GroupHelper():
         self.group_cache = None
 
     def edit_first_group(self, new_group):
+        self.edit_group_by_index(0, new_group)
+
+    def edit_group_by_index(self, index, new_group):
         """
+        :param index: номер группы в списке групп, который будем изменять
         :param new_group: объект класса Group, с новыми значениями
         :return:
         """
         wd = self.app.wd
         self.open_groups_page()
-        wd.find_element_by_xpath('//span[@class="group"]/input').click()
+        self.select_group_by_index(index)
         wd.find_element_by_name('edit').click()
         self.fill_group_form(new_group)
         wd.find_element_by_name('update').click()
         self.return_to_groups_page()
+        self.group_cache = None
 
     def fill_text_field_by_name(self, text_field, text):
         wd = self.app.wd
@@ -95,3 +103,7 @@ class GroupHelper():
                 id = element.find_element_by_name("selected[]").get_attribute("value")
                 self.group_cache.append(Group(name=text, id=id))
         return list(self.group_cache)
+
+    def select_group_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
