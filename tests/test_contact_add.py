@@ -15,12 +15,9 @@ def random_string(prefix="", maxlen=10, numeric=False):
 def random_attribute():
     return random.choice(['', '', '', random_string(maxlen=15)])
 
-testdata = [Contact(first_name=random_attribute(), middle_name=random_attribute(), last_name=random_attribute(),
-                    mobile_tel=mobile_tel, home_tel=home_tel, work_tel=work_tel)
-        for home_tel in ["", random_string(prefix="+", maxlen=19, numeric=True)]
-        for mobile_tel in ["", random_string(prefix="+", maxlen=20, numeric=True)]
-        for work_tel in ["", random_string(prefix="+", maxlen=34, numeric=True)]
-            ]
+testdata = [Contact(first_name=random_string("first_name", 10), middle_name=first_name("middle_name", 20), last_name=first_name("last", 20),
+                    mobile_tel=random_string(maxlen=10, numeric=True), home_tel=random_string(maxlen=15, numeric=True), work_tel=random_string(maxlen=19, numeric=True))
+        for i in range(5)]
 @pytest.mark.parametrize("contact", testdata, ids=[repr(x) for x in testdata])
 def test_add_new_contact(app, contact):
     old_list=app.contact.get_contact_list()
