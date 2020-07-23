@@ -37,4 +37,3 @@ def test_add_new_contact(app, contact):
     new_list = app.contact.get_contact_list()
     old_list.append(contact)
     assert sorted(old_list, key=Contact.id_or_max) == sorted(new_list, key=Contact.id_or_max)
-    
