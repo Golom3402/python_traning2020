@@ -5,20 +5,11 @@ import pytest
 import random
 import string
 from model.group_model import Group
+from data.groups import testdata
 
 
-def random_string(prefix, maxlen):
-    symbols = string.ascii_letters + string.digits + string.punctuation + " "*10
-    return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
-
-
-
-testdata = [Group(name='', header='', footer='')]+[
-        Group(name=random_string("name",10), header=random_string("header",20), footer=random_string("footer",20))
-        for i in range(5)]
-@pytest.mark.parametrize("group", testdata, ids=[repr(x) for x in testdata])
-def test_add_new_group(app, group):
-
+def test_add_new_group(app, data_groups):
+    group = data_groups
     old_groups = app.group.get_group_list()
     # group = Group(name="first_group", header="GROUP", footer="footer group")
     app.group.create(group)

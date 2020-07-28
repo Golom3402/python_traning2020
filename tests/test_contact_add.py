@@ -1,26 +1,11 @@
 # -*- coding: utf-8 -*-
 import pytest
-import random
-import string
-
 from model.contact_model import Contact
 
-def random_string(prefix="", maxlen=10, numeric=False):
-    if numeric:
-        text = string.digits*10
-    else:
-        text = string.ascii_lowercase+string.digits + string.ascii_uppercase + string.punctuation + " "*10
-    return prefix+"".join([random.choice(text) for i in range(random.randrange(maxlen))])
 
-def random_attribute():
-    return random.choice(['', '', '', random_string(maxlen=15)])
-
-testdata = [Contact(first_name=random_string("first_name", 10), middle_name=first_name("middle_name", 20), last_name=first_name("last", 20),
-                    mobile_tel=random_string(maxlen=10, numeric=True), home_tel=random_string(maxlen=15, numeric=True), work_tel=random_string(maxlen=19, numeric=True))
-        for i in range(5)]
-@pytest.mark.parametrize("contact", testdata, ids=[repr(x) for x in testdata])
-def test_add_new_contact(app, contact):
-    old_list=app.contact.get_contact_list()
+def test_add_new_contact(app, data_contacts):
+    contact = data_contacts
+    old_list = app.contact.get_contact_list()
     # contact = Contact(first_name='Test_user1', middle_name='Петрович', last_name="Ватутин", nickname="Test1",
     #                   photo="C:\\fakepath\\Koala.jpg", title='TutleTest data1', company='E-corp',
     #                   address='York sheer 13',
